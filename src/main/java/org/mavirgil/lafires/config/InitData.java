@@ -12,9 +12,9 @@ import java.util.List;
 @Component
 public class InitData implements CommandLineRunner {
 
-    private FireRepository fireRepository;
+    private final FireRepository fireRepository;
 
-    private SirenRepository sirenRepository;
+    private final SirenRepository sirenRepository;
 
     public InitData(FireRepository fireRepository, SirenRepository sirenRepository) {
         this.fireRepository = fireRepository;
