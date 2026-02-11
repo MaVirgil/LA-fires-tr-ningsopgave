@@ -3,6 +3,7 @@ package org.mavirgil.lafires.controller;
 import org.mavirgil.lafires.model.Fire;
 import org.mavirgil.lafires.model.Siren;
 import org.mavirgil.lafires.repository.FireRepository;
+import org.mavirgil.lafires.service.FireService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +14,10 @@ import java.util.List;
 @RequestMapping("/fire")
 public class FireController {
 
-    private final FireRepository repository;
+    private final FireService service;
 
-    public FireController(FireRepository repository) {
-        this.repository = repository;
+    public FireController(FireService service) {
+        this.service = service;
     }
 
     /*----------------------------------
@@ -27,9 +28,19 @@ public class FireController {
     public ResponseEntity<List<Fire>> getFires() {
 
         try {
-            return ResponseEntity.ok(repository.findAll());
+            return ResponseEntity.ok(service.getAll());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Fire> getFireById(@PathVariable Integer id) {
+
+        try {
+            return ResponseEntity.status(HttpStatus.FOUND).body(service.getById(id));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -40,7 +51,7 @@ public class FireController {
     public ResponseEntity<Fire> addFire(@RequestBody Fire fire) {
 
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(fire));
+            return ResponseEntity.status(HttpStatus.CREATED).body(service.add(fire));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
@@ -54,7 +65,7 @@ public class FireController {
 
         try {
             fire.setId(id);
-            return ResponseEntity.ok(repository.save(fire));
+            return ResponseEntity.ok(service.add(fire));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
@@ -66,12 +77,12 @@ public class FireController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteFire(@PathVariable Integer id) {
 
-        if (!repository.existsById(id)) {
+        if (!service.exists(id)) {
             return ResponseEntity.notFound().build();
         }
 
         try {
-            repository.deleteById(id);
+            service.delete(id);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
