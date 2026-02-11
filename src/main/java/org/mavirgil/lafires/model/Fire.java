@@ -12,6 +12,8 @@ public class Fire {
     @Embedded
     private Location location;
 
+    private boolean active;
+
     public Fire() {
     }
 
@@ -26,6 +28,14 @@ public class Fire {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public Location getLocation() {
