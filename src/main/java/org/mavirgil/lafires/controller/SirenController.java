@@ -2,6 +2,7 @@ package org.mavirgil.lafires.controller;
 
 import org.mavirgil.lafires.model.Siren;
 import org.mavirgil.lafires.repository.SirenRepository;
+import org.mavirgil.lafires.service.SirenService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +13,10 @@ import java.util.List;
 @RequestMapping("/siren")
 public class SirenController {
 
-    private final SirenRepository repository;
+    private final SirenService sirenService;
 
-    public SirenController(SirenRepository repository) {
-        this.repository = repository;
+    public SirenController(SirenService sirenService) {
+        this.sirenService = sirenService;
     }
 
     /*----------------------------------
@@ -26,9 +27,19 @@ public class SirenController {
     public ResponseEntity<List<Siren>> getSirens() {
 
         try {
-            return ResponseEntity.ok(repository.findAll());
+            return ResponseEntity.ok(sirenService.getAll());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Siren> getSirenById(@PathVariable Integer id) {
+
+        try {
+            return ResponseEntity.status(HttpStatus.FOUND).body(sirenService.getById(id));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -41,7 +52,7 @@ public class SirenController {
     public ResponseEntity<Siren> addSiren(@RequestBody Siren siren) {
 
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(siren));
+            return ResponseEntity.status(HttpStatus.CREATED).body(sirenService.add(siren));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
@@ -57,7 +68,7 @@ public class SirenController {
 
         try {
             siren.setId(id);
-            return ResponseEntity.ok(repository.save(siren));
+            return ResponseEntity.ok(sirenService.add(siren));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
@@ -71,12 +82,12 @@ public class SirenController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteSiren(@PathVariable Integer id) {
 
-        if (!repository.existsById(id)) {
+        if (!sirenService.exists(id)) {
             return ResponseEntity.notFound().build();
         }
 
         try {
-            repository.deleteById(id);
+            sirenService.delete(id);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
