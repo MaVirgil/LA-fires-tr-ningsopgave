@@ -18,11 +18,9 @@ public class SirenController {
         this.repository = repository;
     }
 
-    /*
-    ----------------------------------
+    /*----------------------------------
             GET ENDPOINTS
-    -----------------------------------
-    */
+    -----------------------------------*/
 
     @GetMapping
     public ResponseEntity<List<Siren>> getSirens() {
@@ -35,11 +33,9 @@ public class SirenController {
     }
 
 
-    /*
-    ----------------------------------
+    /*----------------------------------
                 POST ENDPOINTS
-    -----------------------------------
-    */
+    -----------------------------------*/
 
     @PostMapping
     public ResponseEntity<Siren> addSiren(@RequestBody Siren siren) {
@@ -52,11 +48,9 @@ public class SirenController {
     }
 
 
-    /*
-    ----------------------------------
+    /*----------------------------------
                 PUT ENDPOINTS
-    -----------------------------------
-    */
+    -----------------------------------*/
 
     @PutMapping("/{id}")
     public ResponseEntity<Siren> editSiren(@PathVariable Integer id, @RequestBody Siren siren) {
@@ -70,14 +64,13 @@ public class SirenController {
     }
 
 
-    /*
-    ----------------------------------
+    /*----------------------------------
                 DELETE ENDPOINTS
-    -----------------------------------
-    */
+    -----------------------------------*/
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteSiren(@PathVariable Integer id) {
+
         if (!repository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
