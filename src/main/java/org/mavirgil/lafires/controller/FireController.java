@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/fire")
 public class FireController {
 
-    private FireRepository repository;
+    private final FireRepository repository;
 
     public FireController(FireRepository repository) {
         this.repository = repository;
