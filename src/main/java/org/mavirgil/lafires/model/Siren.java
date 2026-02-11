@@ -17,17 +17,17 @@ public class Siren {
     public Siren() {
     }
 
-    public Siren(int id, Location location, boolean danger) {
+    public Siren(Integer id, Location location, boolean danger) {
         this.id = id;
         this.location = location;
         this.danger = danger;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
