@@ -4,12 +4,8 @@ import org.mavirgil.lafires.model.Location;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
 
 public class LocationUtils {
-
-    private final double NAUTICAL_MILES_IN_DEGREE = 60;
-    private final double KILOMETERS_IN_NAUTICAL_MILE = 1.852;
 
     public static double calculateDistanceKm(Location loc1, Location loc2) {
         //uses the haversine formula
